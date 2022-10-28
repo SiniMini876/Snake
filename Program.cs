@@ -7,33 +7,46 @@
         private static int sizeY = Console.WindowHeight;
         private static int posx, posy, posAppleX, posAppleY, inputx, inputy;
         private static List<int[]> tale = new List<int[]>();
-        /*
-         * List: [
-         *  [5, 5],
-         *  [4, 5],
-         *  [3, 5],
-         *  [3, 4]
-         * ]
-         */
         private static async Task Main(string[] args)
         {
-
-            Console.SetCursorPosition((int)(sizeX / 2.5), sizeY / 2);
-            //Console.Write("Click any key to start the game!");
-            //Console.Read();
             var s = new Snake();
-            AppleGenerator();
             await s.StartGame();
-            inputx = 1;
         }
 
         public async Task StartGame()
         {
+            Frame();
+            AppleGenerator();
             while (ContinueGame)
             {
                 await MoveAction();
-                if (Console.KeyAvailable) await Move();
+                if (Console.KeyAvailable) Move();
             }
+        }
+
+        public static void Frame()
+        {
+            string startGame = "Click enter key to start the game!";
+            Console.SetCursorPosition((sizeX - startGame.Length) / 2, (sizeY - 1) / 2);
+            Console.Write(startGame);
+            Console.Read();
+            Console.Clear();
+            for (int i = 0; i < sizeX; i++)
+            {
+                Console.SetCursorPosition(i, 0);
+                Console.Write("=");
+                Console.SetCursorPosition(i, sizeY - 1);
+                Console.Write("=");
+            }
+            for (int i = 0; i < sizeY; i++)
+            {
+                Console.SetCursorPosition(0, i);
+                Console.Write("|");
+                Console.SetCursorPosition(sizeX - 1, i);
+                Console.Write("|");
+            }
+            posx = sizeX / 2;
+            posy = sizeY / 2;
         }
 
         public static async
@@ -41,14 +54,16 @@
             MoveAction()
         {
             await Task.Delay(100);
-            Console.Clear();
             posx += inputx;
             posy += inputy;
-            if (posy < 0 || posx < 0 || posy > sizeY || posx > sizeX)
+            if (posy < 1 || posx < 1 || posy >= (sizeY - 1) || posx >= (sizeX - 1)) StopGame();
+            if (tale.Count > 0)
             {
-                Console.WriteLine("Game Over!");
-                Environment.Exit(0);
+                int[] last = tale[tale.Count - 1];
+                Console.SetCursorPosition(last[0], last[1]);
+                Console.Write(" ");
             }
+
 
             for (int i = tale.Count - 1; 0 < i; i--)
             {
@@ -57,6 +72,7 @@
                 Console.SetCursorPosition(tale[i][0], tale[i][1]);
                 Console.Write("O");
             }
+
 
             var posHead = new int[] { posx, posy };
             if (tale.Count == 0) tale.Add(posHead);
@@ -73,19 +89,24 @@
                 tale[0][0] = posAppleX;
                 tale[0][1] = posAppleY;
                 AppleGenerator();
-
-                Console.SetCursorPosition(0, 0);
-                tale.ForEach(x => Console.Write(x[0] + " " + x[1] + "\t"));
-
             }
+
+            if (tale.Count > 1)
+            {
+                for (int i = 1; i < tale.Count; i++)
+                {
+                    if (posx == tale[i][0] && posy == tale[i][1]) StopGame();
+                }
+            }
+
             Console.SetCursorPosition(posAppleX, posAppleY);
 
             Console.Write("A");
-            Console.SetCursorPosition(0, 0);
+            Console.SetCursorPosition(1, 1);
             Console.Write("Score is: " + tale.Count);
         }
 
-        public static async Task Move()
+        public static void Move()
         {
             switch (Console.ReadKey().Key)
             {
@@ -106,20 +127,21 @@
                     inputy = 1;
                     break;
             }
-
-
-            if (posx != sizeX)
-            {
-                await MoveAction();
-            }
-            if (posy < 0 || posx < 0 || posy > sizeY || posx > sizeX) Environment.Exit(0);
         }
 
         public static void AppleGenerator()
         {
             var rand = new Random();
-            posAppleX = rand.Next(0, sizeX);
-            posAppleY = rand.Next(0, sizeY);
+            posAppleX = rand.Next(1, sizeX - 1);
+            posAppleY = rand.Next(1, sizeY - 1);
+        }
+
+        public static void StopGame()
+        {
+            Console.Clear();
+            Console.WriteLine("Game Over! Press Enter to exit!");
+            Console.Read();
+            Environment.Exit(0);
         }
     }
 }

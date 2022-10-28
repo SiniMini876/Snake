@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "jHGKZN4wktiz9iUMgDDR10PQ6KwLlWMZJ1yJAhjoTd4IJ70RcST3TufXbq61AAqmVloxnqmztUqp7eiKsyg8pQ==",
+  "dgSpecHash": "kj7d85y9shRY1aGyJSEMkU9WoCv86qEnP8B+GmjOkavhB3cVsgjXzIjudpFixup/g/WTWVGoLZChAob6xrfjoQ==",
   "success": true,
-  "projectFilePath": "D:\\Dev\\SnakeCore\\SnakeCore.csproj",
+  "projectFilePath": "/home/yoav/Dev/Snake/Snake.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }
