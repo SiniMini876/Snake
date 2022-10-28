@@ -1,0 +1,5 @@
+/home/yoav/Dev/Snake/bin/Debug/net6.0/publish/Snake
+/home/yoav/Dev/Snake/bin/Debug/net6.0/publish/Snake.dll
+/home/yoav/Dev/Snake/bin/Debug/net6.0/publish/Snake.deps.json
+/home/yoav/Dev/Snake/bin/Debug/net6.0/publish/Snake.runtimeconfig.json
+/home/yoav/Dev/Snake/bin/Debug/net6.0/publish/Snake.pdb

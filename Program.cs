@@ -15,6 +15,7 @@
 
         public async Task StartGame()
         {
+            Console.Clear();
             Frame();
             AppleGenerator();
             while (ContinueGame)
